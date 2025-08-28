@@ -1,5 +1,24 @@
-$backgroundColor: #2ecc71;
+@use "variables" as *;
 
-.app {
-  background-color: $backgroundColor;
+body {
+    background: $off-white;
+    margin: 0;
+}
+
+h1 {
+    color: $primary;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: $background;
+    color: $primary;
+    &--accent {
+        background: $vibrant-orange;
+        color: $white;
+    }
 }

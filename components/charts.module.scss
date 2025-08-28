@@ -1,0 +1,51 @@
+@use "@/styles/variables" as *;
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.col4 {
+    grid-column: span 4;
+}
+.col6 {
+    grid-column: span 6;
+}
+.col8 {
+    grid-column: span 8;
+}
+
+.suffix {
+    font-size: 16px;
+    margin-left: 4px;
+    color: $text-muted;
+}
+
+.chartSmall {
+    height: 140px;
+}
+.chartMedium {
+    height: 260px;
+}
+.chartLarge {
+    height: 340px;
+}
+
+.suggestions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 8px;
+}
+
+.suggestionItem {
+    padding: 12px;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 12px;
+    color: $text-muted;
+    background: $off-white;
+    font-weight: 700;
+}

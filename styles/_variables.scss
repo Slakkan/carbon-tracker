@@ -1,0 +1,21 @@
+@use "sass:color";
+
+// Opesus Brand Colors
+$deep-blue: #005a9c; // Primary headers, nav, footer
+$bright-green: #78be20; // Logo accent, CTA buttons
+$light-sky-blue: #a6daf1; // Background highlights
+$vibrant-orange: #ff6f3c; // Accent highlights
+
+// Neutral Colors
+$white: #ffffff;
+$off-white: #f5f5f5; // Off-white too make it easier on the eyes
+$black: #000000;
+
+// Semantic Colors
+$primary: $deep-blue;
+$secondary: $bright-green;
+$accent: $vibrant-orange;
+$background: $light-sky-blue;
+
+$text-muted: color.mix($black, $white, 70%);
+$border: rgba(0, 0, 0, 0.08);

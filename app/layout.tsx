@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
-import "@/styles/globals.scss";
+import "@/styles/globals.scss"
+import "bootstrap/dist/css/bootstrap-grid.min.css"
 
 export const metadata: Metadata = {
-  title: "With Sass",
-  description: "Next.js example with Sass.",
-};
+    title: "Carbon Tracker",
+    description: "A simple PoC for Opesus",
+}
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+    return (
+        <html lang='en'>
+            <body>{children}</body>
+        </html>
+    )
 }

@@ -1,9 +1,13 @@
-import HelloWorld from "@/components/hello-world";
+import Charts from "@/components/charts";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 
 export default function Home() {
   return (
     <div className="app">
-      <HelloWorld />
+      <Header />
+      <Charts />
+      <Footer />
     </div>
   );
 }
