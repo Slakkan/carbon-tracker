@@ -1,133 +1,103 @@
-"use client"
+// components/dashboard.tsx
+'use client'
 
-import FootprintChart from "./charts/footprint-chart"
-import OffsetChart from "./charts/offset-chart"
-import GoalChart from "./charts/goal-chart"
-import MonthlyTrendChart from "./charts/monthly-trend-chart"
-import CategoryBreakdownChart from "./charts/category-breakdown"
-import ScopeChart from "./charts/scope-chart"
-import SuggestionsChart from "./charts/suggestions-chart"
-import { fetcher } from "@/lib/fetcher"
-import useSWR from "swr"
-import { Summary } from "@/models/api/summary.model"
-import { GaugeData } from "@/models/api/gauge.model"
-import { MonthlyTrend } from "@/models/api/monthly-trend.model"
-import { CategoryBreakdown } from "@/models/api/category-breakdown"
-import ChartLoading from "./chart-loading"
-import { Suspense } from "react"
+import { Suspense } from 'react'
+import useSWR from 'swr'
+import { fetcher } from '@/lib/fetcher'
 
-function FootprintLoader() {
-    const data = useSWR("/api/summary", fetcher, { suspense: true }).data as Summary
-    return (
-        <FootprintChart
-            currentFootprint={data.currentFootprint}
-            delta={data.delta}
-        />
-    )
-}
+import ChartLoading from './chart-loading'
+import FootprintChart from './charts/footprint-chart'
+import OffsetChart from './charts/offset-chart'
+import GoalChart from './charts/goal-chart'
+import MonthlyTrendChart from './charts/monthly-trend-chart'
+import CategoryBreakdownChart from './charts/category-breakdown'
+import ScopeChart from './charts/scope-chart'
+import SuggestionsChart from './charts/suggestions-chart'
+import DemoFetchToggle from './demo-fetch-toggle'
+import useDemoFetch from '@/hooks/use-demo-fetch'
+import DemoFetchWrapper from './DemoFetchWrapper'
 
-function OffsetLoader() {
-    const data = useSWR("/api/summary", fetcher, { suspense: true }).data as Summary
-    return <OffsetChart offset={data.offset} />
-}
-
-function GoalLoader() {
-    const gauge = useSWR("/api/gauge", fetcher, { suspense: true }).data as GaugeData[]
-
-    const progressPct = gauge?.[0]?.value ?? 0
-    return (
-        <GoalChart
-            progressPct={progressPct}
-            gaugeData={gauge}
-        />
-    )
-}
-
-function MonthlyTrendLoader() {
-    const monthlyTrend = useSWR("/api/monthly-trend", fetcher, {
-        suspense: true,
-    }).data as MonthlyTrend[]
-
-    // If your chart also needs a percentage, grab from /api/summary:
-    const summary = useSWR("/api/summary", fetcher, { suspense: true }).data as {
-        progressPct: number
-    }
-
-    return (
-        <MonthlyTrendChart
-            progressPct={summary.progressPct}
-            monthlyTrend={monthlyTrend}
-        />
-    )
-}
-
-function CategoryBreakdownLoader() {
-    const categoryBreakdown = useSWR("/api/category-breakdown", fetcher, {
-        suspense: true,
-    }).data as CategoryBreakdown[]
-
-    return <CategoryBreakdownChart categoryBreakdown={categoryBreakdown} />
-}
-
-function ScopeLoader() {
-    // /api/scopes -> [{ scope, value }]
-    const scope = useSWR("/api/scopes", fetcher, { suspense: true }).data as Array<{
-        scope: string
-        value: number
-    }>
-
-    return <ScopeChart scope={scope} />
+// tiny helper: wraps useSWR and passes data into children
+function MetricsLoader({ children }: { children: (data: any) => React.ReactNode }) {
+  const { clientOnly } = useDemoFetch()
+  // use a different key when clientOnly so it DOESN'T match the SSR fallback
+  const key = clientOnly ? '/api/metrics?demo=1' : '/api/metrics'
+  const { data } = useSWR(key, fetcher, { suspense: true })
+  return <>{children(data)}</>
 }
 
 export default function Dashboard() {
-    return (
-        <main className='container'>
-            <div className='row'>
-                <div className='col-12 col-md-6'>
-                    <div className='row'>
-                        <div className='col-6 col-md-12 g-3'>
-                            <Suspense fallback={<ChartLoading height={180} />}>
-                                <FootprintLoader />
-                            </Suspense>
-                        </div>
-                        <div className='col-6 col-md-12 g-3'>
-                            <Suspense fallback={<ChartLoading height={180} />}>
-                                <OffsetLoader />
-                            </Suspense>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-12 col-md-6 g-3'>
-                    <Suspense fallback={<ChartLoading height={380} />}>
-                        <GoalLoader />
-                    </Suspense>
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col-12 g-3'>
-                    <Suspense fallback={<ChartLoading height={460} />}>
-                        <MonthlyTrendLoader />
-                    </Suspense>
-                </div>
-            </div>
+  return (
+    <DemoFetchWrapper>
+      <main className="container">
+        <DemoFetchToggle />
 
-            <div className='row'>
-                <div className='col-12 col-lg-4 col-md-6 g-3'>
-                    <Suspense fallback={<ChartLoading height={420} />}>
-                        <CategoryBreakdownLoader />
-                    </Suspense>
-                </div>
-                <div className='col-12 col-lg-8 col-md-6 g-3'>
-                    <Suspense fallback={<ChartLoading height={420} />}>
-                        <ScopeLoader />
-                    </Suspense>
-                </div>
+        {/* Top row: footprint + offset + goal */}
+        <div className="row g-3 my-2">
+          <div className="col-12 col-md-6">
+            <div className="row g-3">
+              <div className="col-6 col-md-12">
+                <Suspense fallback={<ChartLoading height={190} />}>
+                  <MetricsLoader>
+                    {(m) => (
+                      <FootprintChart currentFootprint={m.currentFootprint} delta={m.delta} />
+                    )}
+                  </MetricsLoader>
+                </Suspense>
+              </div>
+              <div className="col-6 col-md-12">
+                <Suspense fallback={<ChartLoading height={190} />}>
+                  <MetricsLoader>{(m) => <OffsetChart offset={m.offset} />}</MetricsLoader>
+                </Suspense>
+              </div>
             </div>
-            <div className='row'>
-                <div className='col-12 col-md-8 g-3'>
-                    <SuggestionsChart />
-                </div>
-            </div>
-        </main>
-    )
+          </div>
+
+          <div className="col-12 col-md-6">
+            <Suspense fallback={<ChartLoading height={400} />}>
+              <MetricsLoader>
+                {(m) => <GoalChart progressPct={m.progressPct} gaugeData={m.gaugeData} />}
+              </MetricsLoader>
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Monthly trend */}
+        <div className="row g-3 my-2">
+          <div className="col-12">
+            <Suspense fallback={<ChartLoading height={460} />}>
+              <MetricsLoader>
+                {(m) => (
+                  <MonthlyTrendChart progressPct={m.progressPct} monthlyTrend={m.monthlyTrend} />
+                )}
+              </MetricsLoader>
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Category breakdown + scopes */}
+        <div className="row g-3 my-2">
+          <div className="col-12 col-lg-4 col-md-6">
+            <Suspense fallback={<ChartLoading height={400} />}>
+              <MetricsLoader>
+                {(m) => <CategoryBreakdownChart categoryBreakdown={m.categoryBreakdown} />}
+              </MetricsLoader>
+            </Suspense>
+          </div>
+          <div className="col-12 col-lg-8 col-md-6">
+            <Suspense fallback={<ChartLoading height={400} />}>
+              <MetricsLoader>{(m) => <ScopeChart scope={m.scopeBars} />}</MetricsLoader>
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Suggestions */}
+        <div className="row g-3 my-2">
+          <div className="col-12 col-md-8">
+            <SuggestionsChart />
+          </div>
+        </div>
+      </main>
+    </DemoFetchWrapper>
+  )
 }

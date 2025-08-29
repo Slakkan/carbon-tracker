@@ -1,0 +1,38 @@
+[
+  { "id": "s25-01a", "date": "2025-01-10", "category": "Energy", "scope": "Scope 1", "amount": 60, "note": "boiler (natural gas)" },
+  { "id": "s25-01b", "date": "2025-01-22", "category": "Transport", "scope": "Scope 3", "amount": 120, "note": "commuting" },
+
+  { "id": "s25-02a", "date": "2025-02-08", "category": "Energy", "scope": "Scope 1", "amount": 55, "note": "boiler (natural gas)" },
+  { "id": "s25-02b", "date": "2025-02-18", "category": "Transport", "scope": "Scope 3", "amount": 115 },
+
+  { "id": "s25-03a", "date": "2025-03-12", "category": "Energy", "scope": "Scope 2", "amount": 110, "note": "purchased electricity" },
+  { "id": "s25-03b", "date": "2025-03-20", "category": "Food", "scope": "Scope 3", "amount": 80 },
+
+  { "id": "s25-04a", "date": "2025-04-09", "category": "Energy", "scope": "Scope 2", "amount": 120 },
+  { "id": "s25-04b", "date": "2025-04-21", "category": "Transport", "scope": "Scope 1", "amount": 95, "note": "company vehicles" },
+
+  { "id": "s25-05a", "date": "2025-05-07", "category": "Energy", "scope": "Scope 2", "amount": 140 },
+  { "id": "s25-05b", "date": "2025-05-19", "category": "Purchases", "scope": "Scope 3", "amount": 95 },
+
+  { "id": "s25-06a", "date": "2025-06-06", "category": "Energy", "scope": "Scope 2", "amount": 160 },
+  { "id": "s25-06b", "date": "2025-06-17", "category": "Transport", "scope": "Scope 1", "amount": 150, "note": "fleet fuel" },
+
+  { "id": "s25-07a", "date": "2025-07-05", "category": "Energy", "scope": "Scope 2", "amount": 180 },
+  { "id": "s25-07b", "date": "2025-07-16", "category": "Transport", "scope": "Scope 3", "amount": 170 },
+  { "id": "s25-07c", "date": "2025-07-27", "category": "Food", "scope": "Scope 3", "amount": 35 },
+
+  { "id": "s25-08a", "date": "2025-08-08", "category": "Energy", "scope": "Scope 2", "amount": 175 },
+  { "id": "s25-08b", "date": "2025-08-20", "category": "Transport", "scope": "Scope 1", "amount": 165, "note": "company vans" },
+
+  { "id": "s25-09a", "date": "2025-09-09", "category": "Energy", "scope": "Scope 2", "amount": 150 },
+  { "id": "s25-09b", "date": "2025-09-19", "category": "Transport", "scope": "Scope 3", "amount": 145 },
+
+  { "id": "s25-10a", "date": "2025-10-10", "category": "Energy", "scope": "Scope 2", "amount": 140 },
+  { "id": "s25-10b", "date": "2025-10-21", "category": "Purchases", "scope": "Scope 3", "amount": 100 },
+
+  { "id": "s25-11a", "date": "2025-11-08", "category": "Energy", "scope": "Scope 1", "amount": 50, "note": "boiler (natural gas)" },
+  { "id": "s25-11b", "date": "2025-11-18", "category": "Transport", "scope": "Scope 3", "amount": 165 },
+
+  { "id": "s25-12a", "date": "2025-12-05", "category": "Energy", "scope": "Scope 1", "amount": 60, "note": "boiler (natural gas)" },
+  { "id": "s25-12b", "date": "2025-12-17", "category": "Food", "scope": "Scope 3", "amount": 130 }
+]

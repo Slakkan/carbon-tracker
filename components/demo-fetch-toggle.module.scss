@@ -1,0 +1,60 @@
+@use '@/styles/variables' as theme;
+
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  color: #fff;
+  box-shadow:
+    0 10px 15px rgba(0, 0, 0, 0.12),
+    0 4px 6px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.on {
+  background: theme.$vibrant-orange;
+}
+.off {
+  background: theme.$bright-green;
+}
+
+.fab:hover {
+  transform: translateY(-4px);
+}
+.fab:active {
+  transform: scale(0.98);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 380px) {
+  .fab {
+    width: 48px;
+    height: 48px;
+    right: 12px;
+    bottom: 12px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
