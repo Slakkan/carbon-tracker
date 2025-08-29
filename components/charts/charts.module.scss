@@ -1,28 +1,5 @@
 @use "@/styles/variables" as *;
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-.col4 {
-    grid-column: span 4;
-}
-.col6 {
-    grid-column: span 6;
-}
-.col8 {
-    grid-column: span 8;
-}
-
-.suffix {
-    font-size: 16px;
-    margin-left: 4px;
-    color: $text-muted;
-}
-
 .chartSmall {
     height: 140px;
 }
