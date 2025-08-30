@@ -8,8 +8,6 @@ import {
   aggregateByScope,
   computeSummary,
 } from '@/lib/aggregate'
-import Header from '@/components/header'
-import Footer from '@/components/footer'
 import { seedIfEmpty } from '@/lib/seed'
 
 export default async function Page() {
@@ -24,7 +22,7 @@ export default async function Page() {
 
   // Build the fallback cache keyed by the URLs your client uses with useSWR
   const fallback = {
-    '/api/metrics': {
+    '/api/metrics/summary': {
       monthlyTrend,
       categoryBreakdown,
       scopeBars,
@@ -37,11 +35,9 @@ export default async function Page() {
 
   return (
     <>
-      <Header />
       <SWRProvider fallback={fallback}>
         <Dashboard />
       </SWRProvider>
-      <Footer />
     </>
   )
 }

@@ -1,24 +1,46 @@
-@use "variables" as *;
+@use 'variables' as *;
+@use 'sass:color';
 
 body {
-    background: $off-white;
-    margin: 0;
-}
-
-h1 {
-    color: $primary;
+  background: $off-white;
+  margin: 0;
 }
 
 .badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 700;
-    background: $background;
-    color: $primary;
-    &--accent {
-        background: $vibrant-orange;
-        color: $white;
-    }
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: $background;
+  color: $primary;
+  &--accent {
+    background: $vibrant-orange;
+    color: $white;
+  }
+}
+
+a {
+  color: color.mix($deep-blue, $black, 50%);
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
+
+  &:hover {
+    color: color.mix($deep-blue, $white, 50%);
+  }
+
+  &:focus,
+  :active,
+  &.active {
+    color: $deep-blue;
+  }
+}
+
+input,
+select {
+  font-family: inherit;
 }

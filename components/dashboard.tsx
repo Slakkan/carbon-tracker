@@ -21,7 +21,7 @@ import DemoFetchWrapper from './DemoFetchWrapper'
 function MetricsLoader({ children }: { children: (data: any) => React.ReactNode }) {
   const { clientOnly } = useDemoFetch()
   // use a different key when clientOnly so it DOESN'T match the SSR fallback
-  const key = clientOnly ? '/api/metrics?demo=1' : '/api/metrics'
+  const key = clientOnly ? '/api/metrics/summary?demo=1' : '/api/metrics/summary'
   const { data } = useSWR(key, fetcher, { suspense: true })
   return <>{children(data)}</>
 }

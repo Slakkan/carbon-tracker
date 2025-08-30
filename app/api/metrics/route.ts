@@ -1,24 +1,23 @@
-import { NextResponse } from "next/server"
-import { readEntries } from "@/lib/db"
-import { aggregateByMonth, aggregateByCategory, aggregateByScope, computeSummary } from "@/lib/aggregate"
-import { sleep } from "@/lib/utils"
-
-export const revalidate = 0
+// app/api/metrics/route.ts
+import { NextResponse } from 'next/server'
+import { readEntries, writeEntries } from '@/lib/db'
+import type { EmissionEntry } from '@/models/emissions'
 
 export async function GET() {
-    await sleep(1000, 3000) // simulate DB latency
-    const entries = await readEntries()
-    const monthlyTrend = aggregateByMonth(entries)
-    const categoryBreakdown = aggregateByCategory(entries)
-    const scopeBars = aggregateByScope(entries)
-    const summary = computeSummary(entries)
-    const gaugeData = [{ name: "progress", value: summary.progressPct, fill: "#78BE20" }]
+  const entries = await readEntries()
 
-    return NextResponse.json({
-        monthlyTrend,
-        categoryBreakdown,
-        scopeBars,
-        gaugeData,
-        ...summary,
-    })
+  // ✅ sort by date desc
+  const sorted = [...entries].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  )
+
+  return NextResponse.json(sorted)
+}
+
+export async function POST(req: Request) {
+  const body: EmissionEntry = await req.json()
+  const entries = await readEntries()
+  const updated = [...entries, body]
+  await writeEntries(updated)
+  return NextResponse.json(body, { status: 201 })
 }

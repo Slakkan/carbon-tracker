@@ -1,0 +1,95 @@
+/* app/metrics/metrics-table.module.scss */
+@use '@/styles/variables' as theme;
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+
+.wrap {
+  max-width: 100%;
+  overflow: auto;
+}
+
+/* Base table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+  color: #000;
+}
+
+.thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f1f5f9;
+  border-bottom: 2px solid #ccc;
+}
+
+.th {
+  padding: 10px 12px;
+  font-weight: 600;
+  color: #000;
+  text-align: left;
+  border-bottom: 2px solid #ccc;
+  white-space: nowrap;
+}
+
+.tr:nth-child(even) {
+  background: #f7fbff;
+}
+.tr:hover {
+  background: #eef5fb;
+  cursor: pointer;
+}
+
+.td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e1e1e1;
+  vertical-align: middle;
+  text-align: left;
+  color: #000;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  text-align: left;
+}
+
+.actions {
+  display: inline-flex;
+  gap: 6px;
+  justify-content: flex-start;
+}
+
+.btnIcon {
+  border: none;
+  background: none;
+  color: #444;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+
+  &:hover {
+    color: theme.$deep-blue;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Empty state */
+.empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: #333;
+}

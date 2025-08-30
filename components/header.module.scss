@@ -1,9 +1,9 @@
-@use "@/styles/variables" as *;
+@use '@/styles/variables' as *;
 
 .header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: $white;
-    border-bottom: 1px solid $border;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $white;
+  border-bottom: 1px solid $border;
 }
