@@ -1,11 +1,19 @@
 [
   {
-    "id": "iv0aocf5iubmexgja1h",
-    "date": "2025-08-30",
+    "id": "s24-09a",
+    "date": "2024-09-12",
     "category": "Energy",
     "scope": "Scope 2",
-    "amount": 280,
-    "note": "potatoes"
+    "amount": 160,
+    "note": "purchased electricity"
+  },
+  {
+    "id": "s24-09b",
+    "date": "2024-09-20",
+    "category": "Transport",
+    "scope": "Scope 3",
+    "amount": 70,
+    "note": "commuting"
   },
   {
     "id": "s24-10a",
@@ -158,5 +166,28 @@
     "category": "Food",
     "scope": "Scope 3",
     "amount": 65
+  },
+  {
+    "id": "s25-08a",
+    "date": "2025-08-08",
+    "category": "Energy",
+    "scope": "Scope 2",
+    "amount": 295
+  },
+  {
+    "id": "s25-08b",
+    "date": "2025-08-25",
+    "category": "Energy",
+    "scope": "Scope 2",
+    "amount": -10,
+    "note": "solar credits (offset)"
+  },
+  {
+    "date": "2025-09-01",
+    "category": "Energy",
+    "scope": "Scope 2",
+    "amount": 260,
+    "note": "",
+    "id": "xxfqsrqz9cmf0t9ctv"
   }
 ]

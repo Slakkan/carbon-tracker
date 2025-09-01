@@ -17,17 +17,17 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 }
 
 // PUT /api/metrics/[id]
-export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }) {
-  const { id } = await ctx.params
-  await seedIfEmpty()
-  const patch = (await req.json()) as Partial<EmissionEntry>
-  const metrics = await readEntries()
-  const idx = metrics.findIndex((m) => m.id === id)
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  const { id } = await params
+  const body: Partial<EmissionEntry> = await req.json()
+  const entries = await readEntries()
+  const idx = entries.findIndex((e) => e.id === id)
   if (idx === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  metrics[idx] = { ...metrics[idx], ...patch, id }
-  await writeEntries(metrics)
-  return NextResponse.json(metrics[idx])
+  entries[idx] = { ...entries[idx], ...body, id }
+  await writeEntries(entries)
+
+  return NextResponse.json(entries[idx])
 }
 
 // DELETE /api/metrics/[id]
