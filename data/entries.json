@@ -186,8 +186,24 @@
     "date": "2025-09-01",
     "category": "Energy",
     "scope": "Scope 1",
-    "amount": 270,
+    "amount": 150,
     "note": "",
     "id": "xao3lnvn5zmmf0te2s1"
+  },
+  {
+    "date": "2025-09-02",
+    "category": "Energy",
+    "scope": "Scope 2",
+    "amount": -80,
+    "note": "test",
+    "id": "d2cw3h7gactmf0uqo94"
+  },
+  {
+    "date": "2025-09-03",
+    "category": "Energy",
+    "scope": "Scope 2",
+    "amount": 160,
+    "note": "",
+    "id": "fu54doacazamf0uxmqe"
   }
 ]

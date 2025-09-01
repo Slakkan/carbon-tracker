@@ -1,9 +1,10 @@
+// components/entries/EntryForm.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import type { EmissionEntry } from '@/models/emissions'
-import styles from './entry-form.module.scss'
+import styles from './entry-form.module.scss' // if you use the module; or remove if not
 
 type Props = {
   mode: 'create' | 'edit'
@@ -13,63 +14,63 @@ type Props = {
 
 export default function EntryForm({ mode, initial = {}, id }: Props) {
   const router = useRouter()
-  const [today, setToday] = useState<string>('')
-  const [loading, setLoading] = useState(false)
+
+  // If the initial amount is negative, it's an offset. Show abs(amount) in the input.
+  const [isOffset, setIsOffset] = useState(Boolean(initial.amount && initial.amount < 0))
   const [form, setForm] = useState({
-    date: initial.date ?? today,
+    date: initial.date ?? '',
     category: (initial.category as any) ?? 'Energy',
     scope: (initial.scope as any) ?? 'Scope 2',
-    amount: initial.amount ?? 0,
+    amount: Math.abs(initial.amount ?? 0),
     note: initial.note ?? '',
   })
 
+  // Re-sync when editing different records or after fresh server fetch
   useEffect(() => {
-    setToday(new Date().toISOString().slice(0, 10))
-  }, [])
+    setIsOffset(Boolean(initial.amount && initial.amount < 0))
+    setForm({
+      date: initial.date ?? '',
+      category: (initial.category as any) ?? 'Energy',
+      scope: (initial.scope as any) ?? 'Scope 2',
+      amount: Math.abs(initial.amount ?? 0),
+      note: initial.note ?? '',
+    })
+  }, [id, initial?.date, initial?.category, initial?.scope, initial?.amount, initial?.note])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setLoading(true)
-    try {
-      const url = mode === 'create' ? '/api/metrics' : `/api/metrics/${id}`
-      const method = mode === 'create' ? 'POST' : 'PUT'
+    const url = mode === 'create' ? '/api/metrics' : `/api/metrics/${id}`
+    const method = mode === 'create' ? 'POST' : 'PUT'
 
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, amount: Number(form.amount) }),
-      })
-      if (!res.ok) throw new Error(await res.text())
+    // Always send a signed amount based on the toggle
+    const signedAmount = isOffset ? -Math.abs(Number(form.amount)) : Math.abs(Number(form.amount))
 
-      router.push('/metrics')
-    } finally {
-      setLoading(false)
-    }
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...form, amount: signedAmount }),
+    })
+    if (!res.ok) throw new Error(await res.text())
+    router.push('/metrics')
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.group}>
-        <label className={styles.label} htmlFor="date">
-          Date
-        </label>
+    <form className={styles?.form ?? 'row g-3'} onSubmit={handleSubmit}>
+      <div className={styles?.group ?? 'col-md-3'}>
+        <label className={styles?.label ?? 'form-label'}>Date</label>
         <input
-          id="date"
           type="date"
-          className={styles.input}
+          className={styles?.input ?? 'form-control'}
           value={form.date}
           onChange={(e) => setForm({ ...form, date: e.target.value })}
           required
         />
       </div>
 
-      <div className={styles.group}>
-        <label className={styles.label} htmlFor="category">
-          Category
-        </label>
+      <div className={styles?.group ?? 'col-md-3'}>
+        <label className={styles?.label ?? 'form-label'}>Category</label>
         <select
-          id="category"
-          className={styles.select}
+          className={styles?.select ?? 'form-select'}
           value={form.category}
           onChange={(e) => setForm({ ...form, category: e.target.value })}
         >
@@ -79,13 +80,10 @@ export default function EntryForm({ mode, initial = {}, id }: Props) {
         </select>
       </div>
 
-      <div className={styles.group}>
-        <label className={styles.label} htmlFor="scope">
-          Scope
-        </label>
+      <div className={styles?.group ?? 'col-md-3'}>
+        <label className={styles?.label ?? 'form-label'}>Scope</label>
         <select
-          id="scope"
-          className={styles.select}
+          className={styles?.select ?? 'form-select'}
           value={form.scope}
           onChange={(e) => setForm({ ...form, scope: e.target.value })}
         >
@@ -95,45 +93,48 @@ export default function EntryForm({ mode, initial = {}, id }: Props) {
         </select>
       </div>
 
-      <div className={styles.group}>
-        <label className={styles.label} htmlFor="amount">
-          Amount (kg CO₂e)
-        </label>
+      <div className={styles?.group ?? 'col-md-3'}>
+        <label className={styles?.label ?? 'form-label'}>Amount (kg CO₂e)</label>
         <input
-          id="amount"
           type="number"
-          min={0}
-          className={styles.input}
+          min={0} // keep input positive; sign handled by the toggle
+          className={styles?.input ?? 'form-control'}
           value={form.amount}
           onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })}
           required
         />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.35rem' }}>
+          <input
+            id="offsetToggle"
+            type="checkbox"
+            checked={isOffset}
+            onChange={(e) => setIsOffset(e.target.checked)}
+          />
+          <label htmlFor="offsetToggle" style={{ margin: 0 }}>
+            Apply as <strong>offset</strong>
+          </label>
+        </div>
       </div>
 
-      <div className={`${styles.group} ${styles.full}`}>
-        <label className={styles.label} htmlFor="note">
-          Note
-        </label>
+      <div className={`${styles?.group ?? ''} ${styles?.full ?? 'col-12'}`}>
+        <label className={styles?.label ?? 'form-label'}>Note</label>
         <input
-          id="note"
-          className={styles.input}
+          className={styles?.input ?? 'form-control'}
           placeholder="Optional"
           value={form.note}
           onChange={(e) => setForm({ ...form, note: e.target.value })}
         />
       </div>
 
-      <div className={styles.actions}>
-        <button type="submit" className={styles.btnPrimary} disabled={loading}>
-          {loading
-            ? mode === 'create'
-              ? 'Creating...'
-              : 'Saving...'
-            : mode === 'create'
-              ? 'Create'
-              : 'Save'}
+      <div className={styles?.actions ?? 'col-12 d-flex gap-2'}>
+        <button type="submit" className={styles?.btnPrimary ?? 'btn btn-primary'}>
+          {mode === 'create' ? 'Create' : 'Save'}
         </button>
-        <button type="button" className={styles.btnSecondary} onClick={() => router.back()}>
+        <button
+          type="button"
+          className={styles?.btnSecondary ?? 'btn btn-outline-secondary'}
+          onClick={() => history.back()}
+        >
           Cancel
         </button>
       </div>
