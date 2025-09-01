@@ -13,7 +13,7 @@ import { sleep } from '@/lib/utils'
 export const revalidate = 0
 
 export async function GET() {
-  await sleep(800, 1800)
+  await sleep(1500, 2500)
   await seedIfEmpty()
   const entries = await readEntries()
   const monthlyTrend = aggregateByMonth(entries)
